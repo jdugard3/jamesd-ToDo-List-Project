@@ -1,0 +1,6 @@
+.todos-wrapper {
+    margin: 50px auto;
+    width: 400px;
+    background-color: white;
+    box-shadow:  0px 5px rgba(255, 255, 255, 0.281), 0px 10px  rgba(255, 255, 255, 0.281), 0px 15px  rgba(255, 255, 255, 0.281);
+}

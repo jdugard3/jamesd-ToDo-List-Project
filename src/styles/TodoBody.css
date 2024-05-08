@@ -1,0 +1,33 @@
+.main {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin-left: -20px;
+}
+
+.task {
+    display: inline-block;
+    width: 90%;
+    border-bottom: dashed;
+    border-bottom-color: black;
+}
+
+    .trash {
+        margin: -15px;
+        visibility: hidden;
+        cursor: pointer;
+    }
+
+    .task:hover +.trash {
+        cursor: pointer;
+        visibility: visible;
+        flex-wrap: nowrap;
+    }
+
+    .trash:hover {
+        cursor: pointer;
+        visibility: visible;
+        flex-wrap: nowrap;
+    }
