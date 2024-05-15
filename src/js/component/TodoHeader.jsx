@@ -12,13 +12,28 @@ const TodoHeader = ({todos, setTodos}) => {
 
         let newTodoObject = {
             id: idCounter,
-            title: newTask,
+            label: newTask,
         };
         // the ...todos, the dots are the spread opeator. 
         // The spread operator expands the array into its elements and then newTodoObject is added at the end of the array. 
         // It is a way to push into a array. 
-        setTodos([...todos, newTodoObject]);
+        // setTodos([...todos, newTodoObject]);
+        // setIdCounter(idCounter + 1);
+
+      fetch('https://playground.4geeks.com/todo/todos/JamesD', {
+        method: 'POST',
+        body: JSON.stringify(newTodoObject),
+        headers: {"Content-Type": 'application/json'}
+      })
+      .then(response => {
+        if (!response.ok) throw Error(response.statusText)
+            return(response.json())
+      }) 
+      .then(data => {
+        setTodos([...todos, data]);
         setIdCounter(idCounter + 1);
+      })
+      .catch(error => console.log(error))         
     }
     //text validation
     const checkTextBox = () => {  

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // styles
 import '../../styles/TodoBody.css'
@@ -11,21 +11,64 @@ import '../../styles/TodoBody.css'
 // we will be using arrays.filter() to help with removing the task object 
 // creating a function to delete the task, it will require the id
 
+
 const TodoBody = ({todos, setTodos}) => {
 
-    const deleteTask = (selectedTodoId) => {
-        // filter the todos and keep any todo that does NOT match the id
-        // assign it to a new array variable 
-        // then we can call setTodos to set the filtered array 
-        let updatedTodos = todos.filter(todo => todo.id !== selectedTodoId);
-        setTodos(updatedTodos);
+    // useEffect -> allows us to synchronize a component with an external system 
+    // We can use useEffect to make a fetch call and retreive our todo list 
+    // useEffect has 2 parameters (callback function, dependency array)
+    // the callback function will be where we use our fetch call and process the response 
+    // the dependency array is used to determine how the browers will rerender information 
 
+	// const [todos, setTodos] = useState([]);
+
+
+
+    useEffect(() => {
+        fetch('https://playground.4geeks.com/todo/users/JamesD')
+        .then(response => response.json())
+        .then(data => {
+            setTodos(data.todos)
+        })
+        .catch(error => console.log("Error: ", error))
+
+    }, [])
+
+    // create a useEffect to delete a task 
+    // useEffect(() => {
+    //     .fetch('https://playground.4geeks.com/todo/todos/16')
+    //     .then(response => response.json())
+        
+    // })
+
+    const deleteTask = (selectedTodoId) => {
+        fetch('https://playground.4geeks.com/todo/todos/' + selectedTodoId, {
+            method: 'DELETE',
+            headers: { "Content-Type": "application/json" },
+            // No need to send a body for a DELETE request
+        })
+            .then(resp => {
+                if (resp.ok) {
+                    console.log("Successfully deleted Todo!");
+                    // Update the state locally
+                    setTodos(todos.filter(todo => todo.id !== selectedTodoId));
+                } else {
+                    console.log("Failed to delete Todo:", resp.status);
+                    // Handle error
+                }
+            })
+            .catch(error => {
+                console.log("There was an error deleting the Todo", error)
+            })
     }
-	
+
+
+
+
     let renderTasks = todos.map( todo => {
         return(
             <li key={todo.id} className="task-item">
-                <span className="task">{todo.title}</span>  
+                <span className="task">{todo.label}</span>  
                 <span className="trash">
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 

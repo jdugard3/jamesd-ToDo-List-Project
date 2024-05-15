@@ -12,7 +12,7 @@ const TASKS = [
 const TodoApp = () => {
 	const [todos, setTodos] = useState([]);
 
-    
+
     
     return (
 		<>
